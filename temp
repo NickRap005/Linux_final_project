@@ -1,0 +1,35 @@
+import requests
+import time
+
+def get_weather():
+	url = "https://wttr.in/Albany,NY?format=j1&u"
+	data = requests.get(url).json()
+
+	current = data["current_condition"][0]
+	temp = current["temp_F"]
+	feels = current["FeelsLikeF"]
+	humidity = current["humidity"]
+	wind = current["windspeedMiles"]
+	desc = current["weatherDesc"][0]["value"]
+
+	return temp, feels, humidity, wind, desc
+
+while True:
+	try:
+		temp, feels, humidity, wind, desc = get_weather()
+
+		print("-------------------------------------")
+		print("     WEATHER  - ALBANY, NY (F)")
+		print("-------------------------------------")
+		print(f"Temperature: {temp}F")
+		print(f"Feels like: {feels}F")
+		print(f"Condition:  {desc}")
+		print(f"Humidity:   {humidity}%")
+		print(f"Wind:       {wind} mph")
+		print("-------------------------------------")
+		
+
+	except Exception as e:
+		print("Error retrieving weather:", e)
+
+	time.sleep(30)
